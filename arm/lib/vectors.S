@@ -91,3 +91,64 @@ IRQ_STACK_START_IN:
     stmia   r5, {r0 - r3}
     mov r0, sp
     .endm
+
+    .macro irq_save_user_regs
+    sub sp, sp, #S_FRAME_SIZE
+    stmia   sp, {r0 -r12}   @calling r0 - r12
+    @   !!!! R8 NEEDS to be saved !!!! a reserved stack spot would be good.
+    add r8, sp, #S_PC
+    stmdb   r8, {sp, lr}^   @calling SP, LR
+    str lr, [r8, #0]
+    mrs r6, spsr
+    str r6, [r8, #4]
+    str r0, [r8, #8]
+    mov r0, sp
+    .endm
+
+    .macro irq_restore_user_regs
+    ldmia   sp, {r0 - lr}^
+    mov r0, r0      @nop
+    ldr lr, [sp, #S_PC]
+    add sp, sp, #S_FRAME_SIZE
+    subs    pc, lr, #4
+    .endm
+
+    .macro get_bad_stack
+    ldr r13, IRQ_STACK_START_IN
+
+    str lr, [r13]
+    mrs lr, spsr
+    str lr, [r13, #4]
+    mov r13, #MODE_SVC
+
+    msr spsr, r13
+    mov lr, pc
+    movs    pc, lr
+    .endm
+
+/*
+ * exception handlers
+ */
+
+    .align 5
+undefined_instruction:
+    b   .
+
+software_interrupt:
+    b   .
+
+prefetch_abort:
+    b   .
+
+data_abort:
+    b   .
+
+not_used:
+    b   .
+
+    .globl irq
+irq:
+    b   .
+
+fiq:
+    b   .
