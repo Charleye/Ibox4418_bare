@@ -53,4 +53,41 @@ _fiq:
 IRQ_STACK_START_IN:
     .word   0x0badc0de
 
+@
+@ IRQ stack frame
+@
+#define S_FRAME_SIZE    72
+#define S_OLD_R0    68
+#define S_PSR       64
+#define S_PC        60
+#define S_LR        56
+#define S_SP        52
 
+#define S_IP        48
+#define S_FP        44
+#define S_R10       40
+#define S_R9        36
+#define S_R8        32
+#define S_R7        28
+#define S_R6        24
+#define S_R5        20
+#define S_R4        16
+#define S_R3        12
+#define S_R2        8
+#define S_R1        4
+#define S_R0        0
+
+#define MODE_SVC    0x13
+#define I_BIT       0x80
+
+    .macro  bad_save_user_regs
+    sub sp, sp, #S_FRAME_SIZE
+    stmia   sp, {r0 - r12}
+    ldr r2, IRQ_STACK_START_IN
+    ldmia   r2, {r2 - r3}
+    add r0, sp, #S_FRAME_SIZE
+    add r5, sp, #S_SP
+    mov r1, lr
+    stmia   r5, {r0 - r3}
+    mov r0, sp
+    .endm
