@@ -74,7 +74,8 @@ reset:
      orr r2, r4, r2             @ r2 has combined CPU variant + revision
      cmp r2, #0x30
      mrceq  p15, 0, r0, c1, c0, 1   @ read ACTLR
-     orreq  r0, r0, #0x06           @ Enable Cache and TLB maintenance broadcast & Enable Dside prefetch
+     orreq  r0, r0, #0x05           @ Enable Cache and TLB maintenance broadcast & Enable Dside prefetch
+     orreq  r0, r0, #0x40           @ set bit[6] SMP
      mcreq  p15, 0, r0, c1, c0, 1
      isb
 
