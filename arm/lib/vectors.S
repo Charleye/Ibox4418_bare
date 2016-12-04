@@ -147,8 +147,12 @@ not_used:
     b   .
 
     .globl irq
+    .align 5
 irq:
-    b   .
+    ldr sp, _stack_end_irq
+    irq_save_user_regs
+    bl do_irq
+    irq_restore_user_regs
 
 fiq:
     b   .
