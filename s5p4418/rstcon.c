@@ -1,10 +1,5 @@
 /*
- * s5p4418-rstcon.c
- *
- * Copyright(c) 2007-2015 Jianjun Jiang <8192542@qq.com>
- * Official site: http://xboot.org
- * Mobile phone: +86-18665388956
- * QQ: 8192542
+ * rstcon.c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +17,7 @@
  *
  */
 
-#include <s5p4418/reg-sys.h>
+#include <reg-sys.h>
 #include <s5p4418-rstcon.h>
 
 static void __attribute__ ((noinline)) __udelay(volatile u32_t loop)

@@ -1,8 +1,5 @@
 /*
- * s5p4418-tick-delay.c
- *
- * Copyright(c) 2007-2013 jianjun jiang <jerryjianjun@gmail.com>
- * official site: http://xboot.org
+ * tick-delay.c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
