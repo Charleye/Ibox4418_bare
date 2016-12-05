@@ -71,6 +71,8 @@ clear_bss:
     mov pc, r1
 
 go2main:
+    bl system_init
+
     mov r0, #0x01
     mov r1, #0x00
     bl main
