@@ -5,10 +5,10 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
-#include <linux/stddef.h>
-#include <linux/sizes.h>
-#include <linux/string.h>
+#include <types.h>
+#include <stddef.h>
+#include <sizes.h>
+#include <string.h>
 #include <io.h>
 #include <s5p4418-clk.h>
 #include <s5p4418-tick.h>

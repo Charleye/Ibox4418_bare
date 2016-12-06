@@ -5,11 +5,11 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
-#include <linux/stddef.h>
-#include <linux/assert.h>
-#include <linux/sizes.h>
-#include <linux/string.h>
+#include <types.h>
+#include <stddef.h>
+#include <assert.h>
+#include <sizes.h>
+#include <string.h>
 
 void * memory_pool_create(void * pool, size_t size);
 void memory_pool_destroy(void * pool);

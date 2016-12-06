@@ -2,9 +2,9 @@
  * libc/string/strcspn.c
  */
 
-#include <linux/types.h>
-#include <linux/stddef.h>
-#include <linux/string.h>
+#include <types.h>
+#include <stddef.h>
+#include <string.h>
 
 /*
  * Finds in a string the last occurrence of a byte not in a set

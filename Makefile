@@ -37,7 +37,7 @@ CFLAGS		:= -Wall -Wno-unused-but-set-variable -lgcc -O2
 ARFLAGS		:= -rcs
 OBJCOPYFLAGS:= -O binary
 MCFLAGS		:= -mcpu=cortex-a9 -mtune=cortex-a9 -march=armv7-a -mfpu=neon -ftree-vectorize -ffast-math -mfloat-abi=softfp
-INCLUDES	:= -Iarm/include/asm -Iinclude
+INCLUDES	:= -Iarm/include/asm -Iinclude -Iinclude/libc/
 
 # cc-cross-prefix
 # Usage:
@@ -135,11 +135,7 @@ $(libs-y) : FORCE
 %.o : %.S
 	$(call if_changed,as_o_S)
 
-_all:
-	$(Q)echo $(patsubst %.c,%.o,$(value s5p4418/src))
-	$(Q)echo $(value s5p4418/src)
-	$(Q)echo $(value s5p4418/obj)
-
+_all: $(libs-y)
 
 PHONY += FORCE
 FORCE:

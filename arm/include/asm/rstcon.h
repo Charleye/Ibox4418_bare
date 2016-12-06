@@ -5,12 +5,12 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
-#include <linux/stddef.h>
-#include <linux/malloc.h>
-#include <linux/stdlib.h>
+#include <types.h>
+#include <stddef.h>
+#include <malloc.h>
+#include <stdlib.h>
 #include <io.h>
-#include <linux/list.h>
+#include <list.h>
 
 enum {
 	RESET_ID_AC97			= 0,

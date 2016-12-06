@@ -2,8 +2,8 @@
  * libc/string/strnlen.c
  */
 
-#include <linux/types.h>
-#include <linux/string.h>
+#include <types.h>
+#include <string.h>
 
 /*
  * Determine the length of a fixed-size string

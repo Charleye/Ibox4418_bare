@@ -16,9 +16,9 @@
  * Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-#include <linux/malloc.h>
-#include <linux/stdio.h>
-#include <linux/sizes.h>
+#include <malloc.h>
+#include <stdio.h>
+#include <sizes.h>
 #include <s5p4418-serial-stdio.h>
 #include <s5p4418-serial.h>
 

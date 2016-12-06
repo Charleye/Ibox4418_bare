@@ -2,8 +2,8 @@
  * libc/string/memscan.c
  */
 
-#include <linux/types.h>
-#include <linux/string.h>
+#include <types.h>
+#include <string.h>
 
 /*
  * Find a character in an area of memory

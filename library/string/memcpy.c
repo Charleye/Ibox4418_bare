@@ -2,8 +2,8 @@
  * libc/string/memcpy.c
  */
 
-#include <linux/types.h>
-#include <linux/string.h>
+#include <types.h>
+#include <string.h>
 
 static void * __memcpy(void * dest, const void * src, size_t len)
 {

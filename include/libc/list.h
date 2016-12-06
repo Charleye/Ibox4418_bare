@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
-#include <linux/stddef.h>
+#include <types.h>
+#include <stddef.h>
 
 /*
  * Simple doubly linked list implementation.

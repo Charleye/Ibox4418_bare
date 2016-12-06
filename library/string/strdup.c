@@ -2,10 +2,10 @@
  * libc/string/strdup.c
  */
 
-#include <linux/types.h>
-#include <linux/stddef.h>
-#include <linux/malloc.h>
-#include <linux/string.h>
+#include <types.h>
+#include <stddef.h>
+#include <malloc.h>
+#include <string.h>
 
 /*
  * Allocates and duplicates a string

@@ -2,8 +2,8 @@
  * libc/string/memcmp.c
  */
 
-#include <linux/types.h>
-#include <linux/string.h>
+#include <types.h>
+#include <string.h>
 
 static int __memcmp(const void * s1, const void * s2, size_t n)
 {

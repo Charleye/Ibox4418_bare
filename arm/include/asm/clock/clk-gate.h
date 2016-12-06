@@ -5,11 +5,11 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
-#include <linux/stddef.h>
-#include <linux/malloc.h>
-#include <linux/stdlib.h>
-#include <linux/list.h>
+#include <types.h>
+#include <stddef.h>
+#include <malloc.h>
+#include <stdlib.h>
+#include <list.h>
 #include <io.h>
 
 struct clk_gate_t {

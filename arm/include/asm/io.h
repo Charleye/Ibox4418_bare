@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
+#include <types.h>
 
 static inline u8_t __read8(physical_addr_t addr)
 {

@@ -5,9 +5,9 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
-#include <linux/string.h>
-#include <linux/stddef.h>
+#include <types.h>
+#include <string.h>
+#include <stddef.h>
 #include <io.h>
 #include <s5p4418-rstcon.h>
 #include <s5p4418-gpio.h>

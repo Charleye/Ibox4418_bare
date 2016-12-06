@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include <linux/types.h>
+#include <types.h>
 
 /*
  * String manipulation
