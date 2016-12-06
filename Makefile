@@ -103,6 +103,7 @@ OBJDUMP	= $(CROSS_COMPILE)objdump
 RM		= rm
 export AS LD CC CPP AR NM STRIP OBJCOPY OBJDUMP
 
+libs-y := arm/
 libs-y += s5p4418/
 libs-y += library/malloc/
 libs-y += library/math/
@@ -123,19 +124,21 @@ init-y	:= $(patsubst %.S, %.o, $(heads-y))
 $(init-y):$(heads-y)
 	$(call if_changed,as_o_S)
 
-$(foreach v, $(dirs), $(eval $(v)/src = $(wildcard $(v)/*.c)))
-$(foreach v, $(dirs), $(eval $(v)/obj = $(patsubst %.c,%.o,$(value $(v)/src))))
-$(foreach v, $(dirs), $(eval $(v)/build-in.o : $($(v)/obj)))
+$(foreach v, $(dirs), $(eval $(v)/src := $(wildcard $(v)/*.c)))
+$(foreach v, $(dirs), $(eval $(v)/obj := $(patsubst %.c,%.o,$(value $(v)/src))))
 
 $(libs-y) : FORCE
 	$(call if_changed,ar)
 
+arm/obj += $(patsubst %.S,%.o,$(filter-out $(heads-y),$(wildcard arm/*.S)))
+
+$(foreach v, $(dirs), $(eval $(v)/build-in.o : $($(v)/obj)))
 %.o : %.c
 	$(call if_changed,cc_o_c)
 %.o : %.S
 	$(call if_changed,as_o_S)
 
-_all: $(libs-y)
+_all:$(libs-y)
 
 PHONY += FORCE
 FORCE:

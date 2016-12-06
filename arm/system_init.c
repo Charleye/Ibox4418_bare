@@ -1,5 +1,5 @@
 
-#include <common.h>
+#include <s5p4418.h>
 
 void system_init(void)
 {
