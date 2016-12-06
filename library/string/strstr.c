@@ -2,9 +2,9 @@
  * libc/string/strstr.c
  */
 
-#include <types.h>
-#include <stddef.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/stddef.h>
+#include <linux/string.h>
 
 /*
  * Finds the first occurrence of a substring in a string

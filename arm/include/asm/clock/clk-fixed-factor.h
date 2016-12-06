@@ -5,12 +5,12 @@
 extern "C" {
 #endif
 
-#include <types.h>
-#include <stddef.h>
-#include <malloc.h>
-#include <stdlib.h>
+#include <linux/types.h>
+#include <linux/stddef.h>
+#include <linux/malloc.h>
+#include <linux/stdlib.h>
+#include <linux/list.h>
 #include <io.h>
-#include <list.h>
 
 struct clk_fixed_factor_t {
 	const char * name;

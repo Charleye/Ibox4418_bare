@@ -2,8 +2,8 @@
  * libc/string/memmove.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 static void * __memmove(void * dest, const void * src, size_t n)
 {

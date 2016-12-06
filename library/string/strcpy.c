@@ -2,8 +2,8 @@
  * libc/string/strcpy.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 /*
  * Copies one string to another

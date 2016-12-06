@@ -2,9 +2,9 @@
  * libc/string/strnstr.c
  */
 
-#include <types.h>
-#include <stddef.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/stddef.h>
+#include <linux/string.h>
 
 /*
  * Locate a substring in a strin

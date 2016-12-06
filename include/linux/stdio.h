@@ -5,14 +5,14 @@
 extern "C" {
 #endif
 
-#include <types.h>
-#include <ctype.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/ctype.h>
+#include <linux/errno.h>
+#include <linux/stdarg.h>
+#include <linux/stddef.h>
+#include <linux/stdlib.h>
+#include <linux/limits.h>
+#include <linux/string.h>
 
 int vsnprintf(char * buf, size_t n, const char * fmt, va_list ap);
 int vsscanf(const char * buf, const char * fmt, va_list ap);

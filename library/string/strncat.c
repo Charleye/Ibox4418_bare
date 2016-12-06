@@ -2,8 +2,8 @@
  * libc/string/strncat.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 /*
  * Appends no more than n bytes from one string to another

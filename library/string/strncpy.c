@@ -2,8 +2,8 @@
  * libc/string/strncpy.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 /*
  * Writes exactly n bytes, copying from source or adding nulls

@@ -2,9 +2,9 @@
  * libc/string/strnicmp.c
  */
 
-#include <types.h>
-#include <ctype.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/ctype.h>
+#include <linux/string.h>
 
 /*
  * Compare strings without case sensitivity

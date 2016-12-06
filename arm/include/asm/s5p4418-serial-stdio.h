@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include <types.h>
+#include <linux/types.h>
 
 int serial_printf(int ch, const char * fmt, ...);
 

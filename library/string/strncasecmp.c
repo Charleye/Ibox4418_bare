@@ -2,9 +2,9 @@
  * libc/string/strncasecmp.c
  */
 
-#include <types.h>
-#include <ctype.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/ctype.h>
+#include <linux/string.h>
 
 /*
  * Compares the two strings s1 and s2, ignoring the case of the characters

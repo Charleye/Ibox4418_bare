@@ -2,8 +2,8 @@
  * libc/string/strlen.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 /*
  * Calculate the length of a string

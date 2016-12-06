@@ -49,7 +49,7 @@ _fiq:
 
     .balignl 16, 0xdeadbeef
 
-.globle IRQ_STACK_START_IN
+.globl IRQ_STACK_START_IN
 IRQ_STACK_START_IN:
     .word   0x0badc0de
 
@@ -156,3 +156,6 @@ irq:
 
 fiq:
     b   .
+
+_stack_end_irq:
+    .word __stack_end_irq

@@ -17,7 +17,7 @@
  *
  */
 
-#include <s5p5518-clk.h>
+#include <s5p4418-clk.h>
 
 /*
  * [CORE CLK]

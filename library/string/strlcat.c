@@ -2,8 +2,8 @@
  * libc/string/strlcat.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 /*
  * A variant of strcat that truncates the result to fit in the destination buffer

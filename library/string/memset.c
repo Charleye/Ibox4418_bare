@@ -2,8 +2,8 @@
  * libc/string/memset.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 static void * __memset(void * s, int c, size_t n)
 {

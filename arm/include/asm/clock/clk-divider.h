@@ -5,12 +5,12 @@
 extern "C" {
 #endif
 
-#include <types.h>
-#include <stddef.h>
-#include <malloc.h>
-#include <stdlib.h>
+#include <linux/types.h>
+#include <linux/stddef.h>
+#include <linux/malloc.h>
+#include <linux/stdlib.h>
+#include <linux/list.h>
 #include <io.h>
-#include <list.h>
 
 enum clk_divider_type_t {
 	CLK_DIVIDER_ZERO_BASED		= 0x0,

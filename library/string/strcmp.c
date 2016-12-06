@@ -2,8 +2,8 @@
  * libc/string/strcmp.c
  */
 
-#include <types.h>
-#include <string.h>
+#include <linux/types.h>
+#include <linux/string.h>
 
 static int __strcmp(const char * s1, const char * s2)
 {
