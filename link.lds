@@ -20,7 +20,7 @@ SECTIONS
 	{
 		. = ALIGN(8);
 		PROVIDE (__text_start = .);
-        arm/lib/vectors.o
+        *(.vectors)
 		arm/start.o (.text)
 		*(.text)
 		*(.text.*)

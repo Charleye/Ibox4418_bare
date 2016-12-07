@@ -151,7 +151,7 @@ not_used:
 irq:
     ldr sp, _stack_end_irq
     irq_save_user_regs
-    bl do_irq
+    bl do_irqs
     irq_restore_user_regs
 
 fiq:

@@ -24,7 +24,7 @@ extern "C" {
 
 extern volatile u32_t jiffies;
 
-void s5p4418_tick_initial(void);
+void s5p4418_tick_init(void);
 u32_t get_system_hz(void);
 u64_t clock_gettime(void);
 

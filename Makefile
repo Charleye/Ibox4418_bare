@@ -1,3 +1,11 @@
+pro :=src/led/
+$(shell mkdir -p output/led)
+
+src/led/build-in.o:$(patsubst %.c,%.o,$(wildcard src/led/*.c))
+	$(call if_changed,ar)
+
+
+
 # Convenient variables
 comma	:= ,
 quote	:= "
@@ -31,9 +39,9 @@ _all:
 
 $(CURDIR)/Makefile Makefile: ;
 
-ASFLAGS		:= -Wall -O2
-LDFLAGS		+= -Tlink.ld -nostdlib
-CFLAGS		:= -Wall -Wno-unused-but-set-variable -lgcc -O2
+ASFLAGS		:= -Wall -O2 -ffunction-sections -fdata-sections -fno-common -Iinclude
+LDFLAGS		+= -static -Tlink.lds -L/usr/lib/gcc/arm-none-eabi/5.4.1/
+CFLAGS		:= -Wall -Wstrict-prototypes -nostdinc  -O2
 ARFLAGS		:= -rcs
 OBJCOPYFLAGS:= -O binary
 MCFLAGS		:= -mcpu=cortex-a9 -mtune=cortex-a9 -march=armv7-a -mfpu=neon -ftree-vectorize -ffast-math -mfloat-abi=softfp
@@ -60,11 +68,11 @@ echo-cmd = $(if $($(quiet)cmd_$(1)),\
 # printing commands
 cmd = @$(echo-cmd) $(cmd_$(1))
 
-quiet_cmd_ld = LD	$@/$@.efi
-cmd_ld = $(CC) $(LDFLAGS)  -o $@/$@.efi -Wl,-cref,-Map=$@/$@.map $(head) $(objs-$@) $(obj-$@) -libox4418 -lgcc
+quiet_cmd_ld = LD	output/$@/$@.efi
+cmd_ld = $(LD) -o output/$@/$@.efi $(LDFLAGS)  $(init-y) --start-group $(libs-y) src/led/build-in.o -lgcc --end-group  -cref -Map=output/$@/System.map
 
-quiet_cmd_objcopy = OBJCOPY		$@/$@
-cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $@/$@.efi $@/$@
+quiet_cmd_objcopy = OBJCOPY 	output/$@/$@
+cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) output/$@/$@.efi output/$@/$@
 
 quiet_cmd_cc_o_c = CC	$@
 cmd_cc_o_c = $(CC) $(MCFLAGS) $(CFLAGS) $(INCLUDES) -c -o $@ $<
@@ -75,8 +83,6 @@ cmd_as_o_S = $(CC) $(MCFLAGS) $(ASFLAGS) -c -o $@ $<
 quiet_cmd_ar = AR	$@
 cmd_ar = $(AR) $(ARFLAGS) $@ $(filter-out FORCE,$^)
 
-quiet_cmd_rm = RM		$(value $(patsubst clean-%,obj-%,$@))
-cmd_rm = $(RM) -rf $(value $(patsubst clean-%,obj-%,$@)) $(value $(patsubst clean-%,objs-%,$@)) $(patsubst clean-%,%,$@)/$(patsubst clean-%,%,$@)*
 
 # Find any prerequisites that is newer than target or that does not exist.
 # PHONY targets skipped in both cases.
@@ -105,6 +111,9 @@ export AS LD CC CPP AR NM STRIP OBJCOPY OBJDUMP
 
 libs-y := arm/
 libs-y += s5p4418/
+libs-y += s5p4418/gpio/
+libs-y += s5p4418/clk/
+libs-y += s5p4418/interrupt/
 libs-y += library/malloc/
 libs-y += library/math/
 libs-y += library/stdio/
@@ -118,7 +127,7 @@ libs-y 	:= $(sort $(libs-y))
 dirs 	:= $(patsubst %/,%, $(filter %/, $(libs-y)))
 libs-y	:= $(patsubst %/,%/build-in.o,$(libs-y))
 
-heads-y := arm/vectors.S arm/start.S
+heads-y := arm/start.S
 init-y	:= $(patsubst %.S, %.o, $(heads-y))
 
 $(init-y):$(heads-y)
@@ -126,9 +135,6 @@ $(init-y):$(heads-y)
 
 $(foreach v, $(dirs), $(eval $(v)/src := $(wildcard $(v)/*.c)))
 $(foreach v, $(dirs), $(eval $(v)/obj := $(patsubst %.c,%.o,$(value $(v)/src))))
-
-$(libs-y) : FORCE
-	$(call if_changed,ar)
 
 arm/obj += $(patsubst %.S,%.o,$(filter-out $(heads-y),$(wildcard arm/*.S)))
 
@@ -138,7 +144,12 @@ $(foreach v, $(dirs), $(eval $(v)/build-in.o : $($(v)/obj)))
 %.o : %.S
 	$(call if_changed,as_o_S)
 
-_all:$(libs-y)
+$(libs-y) : FORCE
+	$(call if_changed,ar)
+
+led:$(libs-y) $(init-y)
+	$(call if_changed,ld)
+	$(call if_changed,objcopy)
 
 PHONY += FORCE
 FORCE:
@@ -146,6 +157,6 @@ FORCE:
 PHONY += clean
 clean:
 	$(Q)$(RM) $(foreach v, $(dirs), $(value $(v)/obj))
-	$(Q)$(RM) $(libs-y)
+	$(Q)$(RM) $(libs-y) $(init-y)
 
 .PHONY:$(PHONY)

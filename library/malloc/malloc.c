@@ -569,7 +569,7 @@ static void pool_construct(pool_t * pool)
 	}
 }
 
-static size_t tlsf_overhead()
+static size_t tlsf_overhead(void)
 {
 	const size_t pool_overhead = sizeof(pool_t) + 2 * block_header_overhead;
 	return pool_overhead;

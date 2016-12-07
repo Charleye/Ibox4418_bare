@@ -94,7 +94,7 @@ static void calibrate_delay(void)
 	}
 }
 
-void s5p4418_tick_delay_initial(void)
+void s5p4418_tick_delay_init(void)
 {
 	calibrate_delay();
 }

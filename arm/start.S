@@ -1,4 +1,3 @@
-
 #include <linux/linkage.h>
 
 #define USR_MODE    0x10
@@ -52,7 +51,7 @@ copy_data:
     ldr r0, _text_start
     ldr r1, _text_end
     sub r0, r1, r0
-    adr r1, _start
+    ldr r1, =_start
     add r0, r0, r1
     ldr r1, _data_start
     ldr r2, _data_shadow_start
@@ -71,8 +70,6 @@ clear_bss:
     mov pc, r1
 
 go2main:
-    bl system_init
-
     mov r0, #0x01
     mov r1, #0x00
     bl main
@@ -180,7 +177,7 @@ ENDPROC(cpu_init_cp15)
  ****************************************************************/
 ENTRY(cpu_init_crit)
     b lowlevel_init             @ go setup pll, mux, memory
-ENDPROC
+ENDPROC(cpu_init_crit)
 
 /****************************************************************
  *

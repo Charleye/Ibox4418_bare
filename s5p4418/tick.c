@@ -30,7 +30,7 @@ static void timer_interrupt(void * data)
 	s5p4418_timer_irq_clear(TICK_TIMER_CHANNEL);
 }
 
-void s5p4418_tick_initial(void)
+void s5p4418_tick_init(void)
 {
 	u64_t rate;
 

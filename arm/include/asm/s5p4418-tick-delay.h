@@ -13,7 +13,7 @@ extern "C" {
 #include <s5p4418-clk.h>
 #include <s5p4418-tick.h>
 
-void s5p4418_tick_delay_initial(void);
+void s5p4418_tick_delay_init(void);
 void udelay(u32_t us);
 void mdelay(u32_t ms);
 

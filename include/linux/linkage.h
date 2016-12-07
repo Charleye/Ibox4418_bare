@@ -9,8 +9,6 @@
 #ifndef _LINUX_LINKAGE_H
 #define _LINUX_LINKAGE_H
 
-#include <asm/linkage.h>
-
 /* Some toolchains use other characters (e.g. '`') to mark new line in macro */
 #ifndef ASM_NL
 #define ASM_NL		 ;
@@ -42,7 +40,6 @@
 #define __ALIGN_STR		".align 4"
 #endif
 
-#ifdef __ASSEMBLY__
 
 #define ALIGN			__ALIGN
 #define ALIGN_STR		__ALIGN_STR
@@ -70,6 +67,5 @@
 	END(name)
 #endif
 
-#endif
 
 #endif
