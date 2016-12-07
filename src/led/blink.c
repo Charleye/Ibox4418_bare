@@ -1,4 +1,4 @@
-#include <s5p4418.h>
+#include <system_init.h>
 
 enum led_name {
 	LED_NAME_LED1		= 1,
@@ -79,10 +79,12 @@ int tester_led(int argc, char * argv[])
 
 	return 0;
 }
-
+extern void led_on(void);
 int main(int argc, char* argv[])
 {
-    system_init();
+    system_init ();
+
+    serial_printf(0,"test");
     tester_led(argc, argv);
 
     return 0;

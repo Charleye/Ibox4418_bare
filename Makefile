@@ -1,10 +1,7 @@
 pro :=src/led/
-$(shell mkdir -p output/led)
 
 src/led/build-in.o:$(patsubst %.c,%.o,$(wildcard src/led/*.c))
 	$(call if_changed,ar)
-
-
 
 # Convenient variables
 comma	:= ,
@@ -39,12 +36,12 @@ _all:
 
 $(CURDIR)/Makefile Makefile: ;
 
-ASFLAGS		:= -Wall -O2 -ffunction-sections -fdata-sections -fno-common -Iinclude
-LDFLAGS		+= -static -Tlink.lds -L/usr/lib/gcc/arm-none-eabi/5.4.1/
-CFLAGS		:= -Wall -Wstrict-prototypes -nostdinc  -O2
+ASFLAGS		:= -O2 -nostdlib -ffunction-sections -fdata-sections -fno-common -Iinclude
+LDFLAGS		+= -O2 -static -Tlink.lds -L/usr/lib/gcc/arm-none-eabi/5.4.1/
+CFLAGS		:= -O2 -nostdlib -nostdinc
 ARFLAGS		:= -rcs
 OBJCOPYFLAGS:= -O binary
-MCFLAGS		:= -mcpu=cortex-a9 -mtune=cortex-a9 -march=armv7-a -mfpu=neon -ftree-vectorize -ffast-math -mfloat-abi=softfp
+MCFLAGS		:= -mtune=cortex-a9 -march=armv7-a -mfpu=neon -ftree-vectorize -ffast-math -mfloat-abi=softfp
 INCLUDES	:= -Iarm/include/asm -Iinclude -Iinclude/libc/
 
 # cc-cross-prefix
@@ -68,11 +65,11 @@ echo-cmd = $(if $($(quiet)cmd_$(1)),\
 # printing commands
 cmd = @$(echo-cmd) $(cmd_$(1))
 
-quiet_cmd_ld = LD	output/$@/$@.efi
-cmd_ld = $(LD) -o output/$@/$@.efi $(LDFLAGS)  $(init-y) --start-group $(libs-y) src/led/build-in.o -lgcc --end-group  -cref -Map=output/$@/System.map
+quiet_cmd_ld = LD	src/$@/$@.efi
+cmd_ld = $(LD) -o src/$@/$@.efi $(LDFLAGS)  $(init-y) --start-group $(libs-y) src/led/build-in.o -lgcc --end-group  -cref -Map=src/$@/System.map
 
-quiet_cmd_objcopy = OBJCOPY 	output/$@/$@
-cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) output/$@/$@.efi output/$@/$@
+quiet_cmd_objcopy = OBJCOPY 	src/$@/$@
+cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) src/$@/$@.efi src/$@/$@
 
 quiet_cmd_cc_o_c = CC	$@
 cmd_cc_o_c = $(CC) $(MCFLAGS) $(CFLAGS) $(INCLUDES) -c -o $@ $<
@@ -147,9 +144,10 @@ $(foreach v, $(dirs), $(eval $(v)/build-in.o : $($(v)/obj)))
 $(libs-y) : FORCE
 	$(call if_changed,ar)
 
-led:$(libs-y) $(init-y)
+led:$(libs-y) $(init-y) src/led/build-in.o
 	$(call if_changed,ld)
 	$(call if_changed,objcopy)
+	tools/mk4418 led.bin tools/nsih.txt tools/2ndboot src/led/led
 
 PHONY += FORCE
 FORCE:

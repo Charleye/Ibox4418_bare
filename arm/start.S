@@ -32,7 +32,6 @@ reset:
     mov r0, #0x40000000
     vmsr fpexc, r0
 
-
     bl  cpu_init_cp15
     bl  cpu_init_crit
 
