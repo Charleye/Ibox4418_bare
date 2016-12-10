@@ -1,7 +1,8 @@
-pro :=src/led/
-
-src/led/build-in.o:$(patsubst %.c,%.o,$(wildcard src/led/*.c))
-	$(call if_changed,ar)
+targets := led
+pdirs 	:= $(addprefix src/,$(targets))
+pobjs	:= $(patsubst %,%/build-in.o,$(pdirs))
+$(foreach v, $(pdirs), $(eval $(v)/pefi := $(addsuffix .efi,$(v)/$(notdir $(v)))))
+$(foreach v, $(pdirs), $(eval $(v)/pbin := $(v)/$(notdir $(v))))
 
 # Convenient variables
 comma	:= ,
@@ -65,11 +66,11 @@ echo-cmd = $(if $($(quiet)cmd_$(1)),\
 # printing commands
 cmd = @$(echo-cmd) $(cmd_$(1))
 
-quiet_cmd_ld = LD	src/$@/$@.efi
-cmd_ld = $(LD) -o src/$@/$@.efi $(LDFLAGS)  $(init-y) --start-group $(libs-y) src/led/build-in.o -lgcc --end-group  -cref -Map=src/$@/System.map
+quiet_cmd_ld = LD	$@
+cmd_ld = $(LD) -o $@ $(LDFLAGS)  $(init-y) --start-group $(filter-out $(init-y),$^) -lgcc --end-group  -cref -Map=$(dir $@)/System.map
 
-quiet_cmd_objcopy = OBJCOPY 	src/$@/$@
-cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) src/$@/$@.efi src/$@/$@
+quiet_cmd_objcopy = OBJCOPY 	$@
+cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(filter-out FORCE,$^) $@
 
 quiet_cmd_cc_o_c = CC	$@
 cmd_cc_o_c = $(CC) $(MCFLAGS) $(CFLAGS) $(INCLUDES) -c -o $@ $<
@@ -136,6 +137,12 @@ $(foreach v, $(dirs), $(eval $(v)/obj := $(patsubst %.c,%.o,$(value $(v)/src))))
 arm/obj += $(patsubst %.S,%.o,$(filter-out $(heads-y),$(wildcard arm/*.S)))
 
 $(foreach v, $(dirs), $(eval $(v)/build-in.o : $($(v)/obj)))
+
+$(foreach v, $(pdirs), $(eval $(v)/src := $(wildcard $(v)/*.c)))
+$(foreach v, $(pdirs), $(eval $(v)/obj := $(patsubst %.c,%.o,$(value $(v)/src))))
+$(foreach v, $(pdirs), $(eval $(v)/build-in.o : $(value $(v)/obj)))
+$(foreach v, $(pdirs), $(eval $(value $(v)/pbin) : $(addsuffix .efi,$(value $(v)/pbin))))
+
 %.o : %.c
 	$(call if_changed,cc_o_c)
 %.o : %.S
@@ -144,17 +151,46 @@ $(foreach v, $(dirs), $(eval $(v)/build-in.o : $($(v)/obj)))
 $(libs-y) : FORCE
 	$(call if_changed,ar)
 
-led:$(libs-y) $(init-y) src/led/build-in.o
+$(foreach m, $(pdirs), $(value $(m)/pefi)) : $(libs-y) $(init-y)
 	$(call if_changed,ld)
+
+$(foreach v, $(pdirs), $(eval $(value $(v)/pefi) : $(v)/build-in.o))
+
+$(foreach m, $(pdirs), $(value $(m)/pbin)) : FORCE
 	$(call if_changed,objcopy)
-	tools/mk4418 led.bin tools/nsih.txt tools/2ndboot src/led/led
+
+$(pobjs) : FORCE
+	$(call if_changed,ar)
+
+$(foreach m, $(pdirs), $(eval $(notdir $(value $(m)/pbin)) : $(value $(m)/pbin)))
+
+MK4418	:= tools/mk4418
+NSIH	:= tools/nsih.txt
+2NDBOOT	:= tools/2ndboot
+
+$(foreach m, $(targets),$(m)): FORCE
+	$(MK4418) $(addsuffix .bin,$@) $(NSIH) $(2NDBOOT) $(addprefix src/,$@)/$@
 
 PHONY += FORCE
 FORCE:
 
 PHONY += clean
 clean:
-	$(Q)$(RM) $(foreach v, $(dirs), $(value $(v)/obj))
+	@echo "\nClean All Object Files\n"
 	$(Q)$(RM) $(libs-y) $(init-y)
+	$(Q)$(RM) $(foreach m, $(dirs), $(value $(m)/obj))
+	$(Q)$(RM) $(pobjs)
+	$(Q)$(RM) $(foreach m, $(pdirs), $(value $(m)/obj))
+	$(Q)$(RM) $(foreach m, $(pdirs), $(value $(m)/pefi))
+	$(Q)$(RM) $(foreach m, $(pdirs), $(value $(m)/pbin))
+	$(Q)$(RM) $(foreach m, $(pdirs),  $(m)/System.map $(addsuffix .bin,$(notdir $(m))))
+
+PHONY += $(foreach m, $(targets), $(addprefix clean-,$(m)))
+$(foreach m, $(targets), $(addprefix clean-,$(m))):
+	@echo "\nClean Object Files for $(patsubst clean-%,%,$@) Project\n"
+	$(Q)$(RM) $(addsuffix /*.o,$(addprefix src/,$(patsubst clean-%,%,$@)))
+	$(Q)$(RM) $(addprefix src/,$(patsubst clean-%,%,$@))/$(patsubst clean-%,%,$@)*
+	$(Q)$(RM) $(addsuffix .bin,$(patsubst clean-%,%,$@))
+	$(Q)$(RM) $(addprefix src/,$(patsubst clean-%,%,$@))/System.map
 
 .PHONY:$(PHONY)
