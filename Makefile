@@ -69,7 +69,7 @@ cmd = @$(echo-cmd) $(cmd_$(1))
 quiet_cmd_ld = LD	$@
 cmd_ld = $(LD) -o $@ $(LDFLAGS)  $(init-y) --start-group $(filter-out $(init-y),$^) -lgcc --end-group  -cref -Map=$(dir $@)/System.map
 
-quiet_cmd_objcopy = OBJCOPY 	$@
+quiet_cmd_objcopy = OBJCOPY	$@
 cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(filter-out FORCE,$^) $@
 
 quiet_cmd_cc_o_c = CC	$@
@@ -164,19 +164,22 @@ $(pobjs) : FORCE
 
 $(foreach m, $(pdirs), $(eval $(notdir $(value $(m)/pbin)) : $(value $(m)/pbin)))
 
-MK4418	:= tools/mk4418
+MK4418	:= mk4418
 NSIH	:= tools/nsih.txt
 2NDBOOT	:= tools/2ndboot
 
-$(foreach m, $(targets),$(m)): FORCE
-	$(MK4418) $(addsuffix .bin,$@) $(NSIH) $(2NDBOOT) $(addprefix src/,$@)/$@
+$(foreach m, $(targets),$(m)): FORCE $(MK4418)
+	./$(MK4418) $(addsuffix .bin,$@) $(NSIH) $(2NDBOOT) $(addprefix src/,$@)/$@
+
+$(MK4418) :
+	@echo "GCC	$@"
+	$(Q)gcc -o $@ tools/4418.c
 
 PHONY += FORCE
 FORCE:
 
 PHONY += clean
 clean:
-	@echo "\nClean All Object Files\n"
 	$(Q)$(RM) $(libs-y) $(init-y)
 	$(Q)$(RM) $(foreach m, $(dirs), $(value $(m)/obj))
 	$(Q)$(RM) $(pobjs)
@@ -184,13 +187,15 @@ clean:
 	$(Q)$(RM) $(foreach m, $(pdirs), $(value $(m)/pefi))
 	$(Q)$(RM) $(foreach m, $(pdirs), $(value $(m)/pbin))
 	$(Q)$(RM) $(foreach m, $(pdirs),  $(m)/System.map $(addsuffix .bin,$(notdir $(m))))
+	$(Q)$(RM) $(MK4418)
+	@echo "\nClean All Object Files\n"
 
 PHONY += $(foreach m, $(targets), $(addprefix clean-,$(m)))
 $(foreach m, $(targets), $(addprefix clean-,$(m))):
-	@echo "\nClean Object Files for $(patsubst clean-%,%,$@) Project\n"
 	$(Q)$(RM) $(addsuffix /*.o,$(addprefix src/,$(patsubst clean-%,%,$@)))
 	$(Q)$(RM) $(addprefix src/,$(patsubst clean-%,%,$@))/$(patsubst clean-%,%,$@)*
 	$(Q)$(RM) $(addsuffix .bin,$(patsubst clean-%,%,$@))
 	$(Q)$(RM) $(addprefix src/,$(patsubst clean-%,%,$@))/System.map
+	@echo "\nClean Object Files for $(patsubst clean-%,%,$@) Project\n"
 
 .PHONY:$(PHONY)
