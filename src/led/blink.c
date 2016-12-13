@@ -11,10 +11,8 @@ enum led_status {
 };
 
 /*
- * LED1 -> S5P4418_GPIOB(28)
- * LED2 -> S5P4418_GPIOC(11)
- * LED3 -> S5P4418_GPIOC(7)
- * LED4 -> S5P4418_GPIOC(12)
+ * LED1 -> S5P4418_GPIOC(7)
+ * LED2 -> S5P4418_GPIOC(12)
  */
 void led_initial(void)
 {
@@ -83,8 +81,6 @@ extern void led_on(void);
 int main(int argc, char* argv[])
 {
     system_init ();
-
-    serial_printf(0,"test");
     tester_led(argc, argv);
 
     return 0;
