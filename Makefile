@@ -1,4 +1,4 @@
-targets := led
+targets := led reset
 pdirs 	:= $(addprefix src/,$(targets))
 pobjs	:= $(patsubst %,%/build-in.o,$(pdirs))
 $(foreach v, $(pdirs), $(eval $(v)/pefi := $(addsuffix .efi,$(v)/$(notdir $(v)))))
@@ -104,7 +104,7 @@ NM		= $(CROSS_COMPILE)nm
 STRIP	= $(CROSS_COMPILE)strip
 OBJCOPY	= $(CROSS_COMPILE)objcopy
 OBJDUMP	= $(CROSS_COMPILE)objdump
-RM		= rm
+RM		= rm -f
 export AS LD CC CPP AR NM STRIP OBJCOPY OBJDUMP
 
 libs-y := arm/

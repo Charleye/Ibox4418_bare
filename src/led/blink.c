@@ -77,7 +77,7 @@ int tester_led(int argc, char * argv[])
 
 	return 0;
 }
-extern void led_on(void);
+
 int main(int argc, char* argv[])
 {
     system_init ();
