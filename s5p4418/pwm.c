@@ -171,7 +171,7 @@ void s5p4418_pwm_init(void)
 	struct pwm_t * pwm;
 	int i;
 
-	s5p4418_ip_reset(RESET_ID_PWM, 0);
+	s5p4418_ip_reset(RESET_ID_PWMTIMER0, 0);
 
 	for(i = 0; i < ARRAY_SIZE(pwm_datas); i++)
 	{

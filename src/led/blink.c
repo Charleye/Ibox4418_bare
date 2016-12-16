@@ -81,6 +81,7 @@ int tester_led(int argc, char * argv[])
 int main(int argc, char* argv[])
 {
     system_init ();
+
     tester_led(argc, argv);
 
     return 0;

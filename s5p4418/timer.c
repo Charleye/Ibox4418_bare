@@ -45,7 +45,7 @@ static inline physical_addr_t s5p4418_timer_base(int ch)
 
 void s5p4418_timer_reset(void)
 {
-	s5p4418_ip_reset(RESET_ID_TIMER, 0);
+	s5p4418_ip_reset(RESET_ID_PWMTIMER1, 0);
 }
 
 void s5p4418_timer_start(int ch, int irqon)
