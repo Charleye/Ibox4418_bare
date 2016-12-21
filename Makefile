@@ -1,4 +1,4 @@
-targets := led reset
+targets := led reset key-led
 pdirs 	:= $(addprefix src/,$(targets))
 pobjs	:= $(patsubst %,%/build-in.o,$(pdirs))
 $(foreach v, $(pdirs), $(eval $(v)/pefi := $(addsuffix .efi,$(v)/$(notdir $(v)))))
