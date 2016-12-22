@@ -1,3 +1,4 @@
+#include <s5p4418-serial-stdio.h>
 #include <s5p4418-gpio.h>
 #include <key.h>
 
@@ -29,13 +30,14 @@ static u32_t __get_key_status(void)
 
 u32_t get_key_status(u32_t *key)
 {
-    u32_t a = 0, b = 0, c = 0;
+    u32_t a = 0, b = 0, c = 0, d = 0;
 
     a = __get_key_status();
     b = __get_key_status();
     c = __get_key_status();
+    d = __get_key_status();
 
-    if ((a == b) && (a == c))
+    if ((a == b) && (a == c) && (a == d))
     {
         *key = a;
         return 1;
@@ -53,8 +55,8 @@ u32_t get_key_event(u32_t *keyup, u32_t *keydown)
 
     if(key != key_old)
     {
-        *keyup = (key ^ key_old) & key_old;
-        *keydown = (key ^ key_old) & key;
+        *keyup = key & 0x01;
+        *keydown = key & 0x02;
         key_old = key;
 
         return 1;
