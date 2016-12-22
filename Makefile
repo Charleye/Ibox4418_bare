@@ -169,7 +169,8 @@ NSIH	:= tools/nsih.txt
 2NDBOOT	:= tools/2ndboot
 
 $(foreach m, $(targets),$(m)): FORCE $(MK4418)
-	./$(MK4418) $(addsuffix .bin,$@) $(NSIH) $(2NDBOOT) $(addprefix src/,$@)/$@
+	@echo "MK4418	$(addsuffix .bin,$@)"
+	@./$(MK4418) $(addsuffix .bin,$@) $(NSIH) $(2NDBOOT) $(addprefix src/,$@)/$@
 
 $(MK4418) :
 	@echo "GCC	$@"
