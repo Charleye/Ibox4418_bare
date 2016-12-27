@@ -38,7 +38,7 @@ _all:
 $(CURDIR)/Makefile Makefile: ;
 
 ASFLAGS		:= -O2 -nostdlib -ffunction-sections -fdata-sections -fno-common -Iinclude
-LDFLAGS		+= -O2 -static -Tlink.lds -L/usr/lib/gcc/arm-none-eabi/5.4.1/
+LDFLAGS		+= -O2 -static -Tlink.lds -L/usr/lib/gcc/arm-none-eabi/6.2.1/
 CFLAGS		:= -O2 -nostdlib -nostdinc
 ARFLAGS		:= -rcs
 OBJCOPYFLAGS:= -O binary

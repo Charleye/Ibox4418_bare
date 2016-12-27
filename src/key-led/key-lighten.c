@@ -16,27 +16,21 @@ void ligten_led (void)
         {
             if (keyup & KEY_NAME_UP)
             {
-                led1++;
+                led1 = !led1;
+                if (led1)
+                    led_set_status(LED_NAME_LED1, LED_STATUS_ON);
+                else
+                    led_set_status(LED_NAME_LED1, LED_STATUS_OFF);
             }
 
-            if(keydown & KEY_NAME_DOWN)
+            if (keydown & KEY_NAME_DOWN)
             {
-                led2++;
+                led2 = !led2;
+                if (led2)
+                    led_set_status(LED_NAME_LED2, LED_STATUS_ON);
+                else
+                    led_set_status(LED_NAME_LED2, LED_STATUS_OFF);
             }
-
-            if (led1)
-            {
-                led_set_status(LED_NAME_LED1, LED_STATUS_ON);
-                led1 --;
-            }
-            else led_set_status(LED_NAME_LED1, LED_STATUS_OFF);
-
-            if (led2)
-            {
-                led_set_status(LED_NAME_LED2, LED_STATUS_ON);
-                led2--;
-            }
-            else led_set_status(LED_NAME_LED2, LED_STATUS_OFF);
         }
     }
 }

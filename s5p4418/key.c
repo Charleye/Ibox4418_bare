@@ -1,5 +1,6 @@
 #include <s5p4418-serial-stdio.h>
 #include <s5p4418-gpio.h>
+#include <s5p4418-tick-delay.h>
 #include <key.h>
 
 /*
@@ -34,7 +35,9 @@ u32_t get_key_status(u32_t *key)
 
     a = __get_key_status();
     b = __get_key_status();
+    mdelay(1);
     c = __get_key_status();
+    mdelay(1);
     d = __get_key_status();
 
     if ((a == b) && (a == c) && (a == d))
