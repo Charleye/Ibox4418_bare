@@ -1,4 +1,4 @@
-targets := led reset key-led
+targets := $(sort $(patsubst %/,%,$(shell ls -F src/)))
 pdirs 	:= $(addprefix src/,$(targets))
 pobjs	:= $(patsubst %,%/build-in.o,$(pdirs))
 $(foreach v, $(pdirs), $(eval $(v)/pefi := $(addsuffix .efi,$(v)/$(notdir $(v)))))
@@ -34,6 +34,7 @@ endif
 
 PHONY := _all
 _all:
+	@echo $(targets)
 
 $(CURDIR)/Makefile Makefile: ;
 

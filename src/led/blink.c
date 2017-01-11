@@ -24,7 +24,7 @@ int tester_led(int argc, char * argv[])
 			break;
 		}
 
-		mdelay(150);
+		mdelay(300);
         index = (index + 1) % 2;
 	}
 
